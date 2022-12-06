@@ -3,8 +3,8 @@ const random = (n)=> Math.floor(Math.random()*(n+1));
 const pcCheck = document.querySelector("#PC");
 
 pcCheck.addEventListener('change',(event)=>{
-    if(event.currentTarget?.checked){game.pc = true;}
-    else {pc = false;}
+    if(event.currentTarget.checked){game.pc = true}
+    else {game.pc = false}
 })
 
 const game = (()=>{
