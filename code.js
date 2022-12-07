@@ -38,25 +38,30 @@ const game = (()=>{
         board[index] = board[index] || player;
         setTimeout(() => {
             currentPlayer = ['X','O'].find(x=>x!==player);
+            updateTurn();
         }, 1);
-        if(!checkWinner()){
-            if (pc){
+        if(checkWinner()){return true};
+        if (game.pc){
+            console.log('should play')
+            setTimeout(() => {
                 playPC();
-                if(checkWinner()){return true};
-                setTimeout(() => {
-                    updateTurn();
-                }, 2);
-            }};
+            }, 2);
+        };
+        checkWinner();
         return 'Marked';
     }
     const availableMoves = ()=> board.reduce((y,x,i)=> !x ? y.concat(i):y,[]);
 
     const playPC = ()=> {
         if(availableMoves().length>0){
-            board[availableMoves[random(list.length-1)]] = currentPlayer;
+            let index = availableMoves()[random(availableMoves().length-1)];
+            board[index] = currentPlayer;
+            [...$('.board-grid').children].find(x=>x.index === index).textContent = currentPlayer;
         }
-        currentPlayer = ['x','o'].find(x=>x!==currentPlayer);
-        updateTurn();
+        setTimeout(() => {
+            currentPlayer = ['X','O'].find(x=>x!==currentPlayer);
+            updateTurn();
+        }, 1); 
         return "PC played";
     }
     const checkWinner = ()=>{
