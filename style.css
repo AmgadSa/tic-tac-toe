@@ -5,7 +5,11 @@
 :root{
     --average: clamp(100vmin,100%,100vmax);
     --font-responsive: calc(16px + calc( 0.1 * var(--average)));
-    font-family: Ubuntu;
+    font-family: "Ubuntu Condensed";
+}
+h1{
+    font-weight: normal;
+    font-size: var(--font-responsive);
 }
 body{
     height: 100vh;
