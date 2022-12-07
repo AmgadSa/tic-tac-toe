@@ -38,6 +38,7 @@ const game = (()=>{
         board[index] = board[index] || player;
         setTimeout(() => {
             currentPlayer = ['X','O'].find(x=>x!==player);
+            checkWinner();
         }, 1);
         setTimeout(() => {
             updateTurn();
@@ -58,10 +59,18 @@ const game = (()=>{
     }
     const checkWinner = ()=>{
         let matrix = [board.slice(0,3).join(''),board.slice(3,6).join(''),board.slice(6,9).join('')].toString();
-        let pattern = /(x|o)\1\1|^(x|o)\w+,\1\w+,\1\w+|\w+(x|o),\w+\1,\w+\1$|\w(o|x)\w,\w\1\w,\w\1\w|^(x|o)\w+,\w\1\w,\w+\1$|\w+(x|o),\w\1\w,\1\w+/ig;
-        matrix = matrix.match(pattern);
-        if(matrix){end(matrix[0].replace(pattern,"$1"))};
-        if(availableMoves.lengh<1){draw()};
+        let pattern = [
+                       /(X|O)\1\1/ig,
+                       /(X|O)\w\w,\1\w\w,\1\w\w/ig,
+                       /\w\w(X|O),\w\w\1,\w\w\1/ig,
+                       /\w(X|O)\w,\w\1\w,\w\1\w/ig,
+                       /(X|O)\w\w,\w\1\w,\w\w\1/ig,
+                       /\w\w(X|O),\w\1\w,\1\w\w/ig
+                    ];
+        pattern = pattern.find(x=>x.test(matrix));
+        if(pattern){end(matrix.match(pattern)[0].replace(pattern,"$1"))};
+        l(availableMoves().length)
+        if(availableMoves().length<1){draw()};
         return 'Checked';
     }
     const start = (player = player1)=>{
@@ -89,14 +98,14 @@ const game = (()=>{
     const draw = () => {
         let ResultScreen = document.createElement('div');
         ResultScreen.className = "result";
-        ResultScreen.innerHTML = `<p>Draw! Board full<br><br>
+        ResultScreen.innerHTML = `<p>Draw! Board full<br>
                                      Out of Moves<br>
-                                    Results:<br> 
+                                    Results:<br><br>
                                     ${score['x']>=score['o']?
                                     ('X : '+score['x']+'<br>O : '+score['o']):
                                     ("O : "+score['o']+'<br>X : '+score['x'])}
                                     <br>
-                                    <div class="button" onclick="game.start()">restart</div>`;
+                                    <div class="button" onclick="game.start()">Play Again</div>`;
         container.innerHTML = '';
         container.appendChild(ResultScreen);
         return 'Draw';
