@@ -10,7 +10,7 @@ pcCheck.addEventListener('change',(event)=>{
 })
 
 const game = (()=>{
-    let currentPlayer,player1,pc,score = {'o':0,'x':0};
+    let currentPlayer,player1,pc,score = {'O':0,'X':0};
     let board = [];
     let initialize = ()=>{
         board = [...Array(9).fill(0)];
@@ -38,13 +38,15 @@ const game = (()=>{
         board[index] = board[index] || player;
         setTimeout(() => {
             currentPlayer = ['X','O'].find(x=>x!==player);
-            checkWinner();
         }, 1);
-        setTimeout(() => {
-            updateTurn();
-            if (pc){playPC()};
-            checkWinner();
-        }, 1);
+        if(!checkWinner()){
+            if (pc){
+                playPC();
+                if(checkWinner()){return true};
+                setTimeout(() => {
+                    updateTurn();
+                }, 2);
+            }};
         return 'Marked';
     }
     const availableMoves = ()=> board.reduce((y,x,i)=> !x ? y.concat(i):y,[]);
@@ -68,10 +70,12 @@ const game = (()=>{
                        /\w\w(X|O),\w\1\w,\1\w\w/ig
                     ];
         pattern = pattern.find(x=>x.test(matrix));
-        if(pattern){end(matrix.match(pattern)[0].replace(pattern,"$1"))};
-        l(availableMoves().length)
-        if(availableMoves().length<1){draw()};
-        return 'Checked';
+        if(pattern){
+            end(matrix.match(pattern)[0].replace(pattern,"$1"));
+            return true;
+        };
+        if(availableMoves().length<1){draw();return true};
+        return false;
     }
     const start = (player = player1)=>{
         initialize();
@@ -81,14 +85,14 @@ const game = (()=>{
         return 'Game started';
     }
     const end = winner => {
-        score[winner]++
+        score[winner]++;
         let ResultScreen = document.createElement('div');
         ResultScreen.className = "result";
         ResultScreen.innerHTML = `<p><span>${winner}</span> is Winner<br><br>
                                     Results:<br> 
-                                    ${score['x']>=score['o']?
-                                    ('X : '+score['x']+'<br>O : '+score['o']):
-                                    ("O : "+score['o']+'<br>X : '+score['x'])}
+                                    ${score['X']>=score['O']?
+                                    ('X : '+score['X']+'<br>O : '+score['O']):
+                                    ("O : "+score['O']+'<br>X : '+score['X'])}
                                     <br>
                                     <div class="button" onclick="game.start()">Play Again</div>`;
         container.innerHTML = '';
@@ -101,9 +105,9 @@ const game = (()=>{
         ResultScreen.innerHTML = `<p>Draw! Board full<br>
                                      Out of Moves<br>
                                     Results:<br><br>
-                                    ${score['x']>=score['o']?
-                                    ('X : '+score['x']+'<br>O : '+score['o']):
-                                    ("O : "+score['o']+'<br>X : '+score['x'])}
+                                    ${score['X']>=score['O']?
+                                    ('X : '+score['X']+'<br>O : '+score['O']):
+                                    ("O : "+score['O']+'<br>X : '+score['X'])}
                                     <br>
                                     <div class="button" onclick="game.start()">Play Again</div>`;
         container.innerHTML = '';
