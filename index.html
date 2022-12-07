@@ -12,10 +12,14 @@
     <h1>Tic Tac Toe</h1>
     <div class="container">
         <p>Choose First Player Marker:</p>
-        <label for="PC">Play Against PC</label>
-        <input type="checkbox" name="PC" id="PC">
-        <button onclick="game.start('X')">X</button>
-        <button onclick="game.start('O')">O</button>
+        <div class="options">
+            <input type="checkbox" name="PC" id="PC">
+            <label for="PC">Play Against PC</label>
+        </div>
+        <div class="buttons">
+            <div class="button" onclick="game.start('X')">X</div>
+            <div class="button" onclick="game.start('O')">O</div>
+        </div>
     </div>
 </body>
 </html>

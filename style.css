@@ -1,0 +1,82 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+:root{
+    --average: clamp(100vmin,100%,100vmax);
+    --font-responsive: calc(16px + calc( 0.1 * var(--average)));
+    font-family: Ubuntu;
+}
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--main-background);
+}
+.container {
+    height: max(min(400px, 100%), calc(0.4 * var(--average)));
+    width: max(min(400px, 100%), calc(0.4 * var(--average)));
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    row-gap: 1rem;
+    font-size: 1.5rem;
+    background-color: var(--main-color);
+    box-shadow: 2px 2px 15px 0 rgba(0, 0, 0, 0.3);
+}
+.buttons{
+    flex-grow: 1;
+    display: flex;
+}
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 50%;
+    font-size: var(--font-responsive);
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    border: var(--main-background) solid 1px;
+}
+.button:hover,.check-box:hover{
+    background-color: var(--main-background);
+}
+.board-grid{
+    display: grid;
+    height: 100%;
+    grid-template:1fr 1fr 1fr / 1fr 1fr 1fr;
+    border: var(--main-background) solid 1px;
+}
+.check-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    font-size: var(--font-responsive);
+    font-family: Arial, Helvetica, sans-serif;
+    border: var(--main-background) solid 1px;
+}
+.result {
+    height: 100%;
+    width: 100%;
+    padding-top: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1em;
+}
+.result .button{
+    width: 100%;
+    flex: 1 1 100%;
+    font-size: 1em;
+}
+input[type*="check"]{
+    transform: scale(1.5);
+    margin: 0 1em;
+}
