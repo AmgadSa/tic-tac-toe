@@ -1,6 +1,7 @@
-const $ = x=> document.querySelector(x);
-const container = document.querySelector(".container");
 const random = (n)=> Math.floor(Math.random()*(n+1));
+const $ = x=> document.querySelector(x);
+const l = x=> console.log(x);
+const container = document.querySelector(".container");
 const pcCheck = document.querySelector("#PC");
 
 pcCheck.addEventListener('change',(event)=>{
@@ -35,10 +36,14 @@ const game = (()=>{
     
     const mark = (player,index)=>{
         board[index] = board[index] || player;
-        currentPlayer = ['X','O'].find(x=>x!==player);
-        updateTurn();
-        if (pc){playPC()};
-        checkWinner();
+        setTimeout(() => {
+            currentPlayer = ['X','O'].find(x=>x!==player);
+        }, 1);
+        setTimeout(() => {
+            updateTurn();
+            if (pc){playPC()};
+            checkWinner();
+        }, 1);
         return 'Marked';
     }
     const availableMoves = ()=> board.reduce((y,x,i)=> !x ? y.concat(i):y,[]);
@@ -63,6 +68,7 @@ const game = (()=>{
         initialize();
         player1=player;
         currentPlayer = player1;
+        updateTurn();
         return 'Game started';
     }
     const end = winner => {
