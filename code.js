@@ -48,12 +48,11 @@ const game = (()=>{
         }, 1);
         if(checkWinner()){return true};
         if (game.pc){
-            console.log('should play')
             setTimeout(() => {
                 playPC();
+                checkWinner();
             }, 2);
         };
-        checkWinner();
         return 'Marked';
     }
     const availableMoves = ()=> board.reduce((y,x,i)=> !x ? y.concat(i):y,[]);
