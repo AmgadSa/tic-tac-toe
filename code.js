@@ -21,16 +21,19 @@ const game = (()=>{
             let box = document.createElement('div')
             box.className = 'check-box';
             box.index = n;
-            box.addEventListener('click',(e)=>{
-                if(e.target===e.currentTarget){
-                mark(currentPlayer,e.target.index);
-                e.target.textContent = currentPlayer;}
-                },{once:true});
+            box.addEventListener('click',UIEventHandler,{once:true});
             grid.appendChild(box);
         };
         container.innerHTML = `<p class="turn">Player ${currentPlayer}'s Turn</p>`;
         container.appendChild(grid);
     return 'Initialized'}
+
+    const UIEventHandler = (e) => {
+        if(e.target===e.currentTarget){
+            mark(currentPlayer,e.target.index);
+            e.target.textContent = currentPlayer;}
+        return true;
+    }
 
     const updateTurn = () => {
         if(!$('.turn')){return true;}
@@ -59,7 +62,9 @@ const game = (()=>{
         if(availableMoves().length>0){
             let index = availableMoves()[random(availableMoves().length-1)];
             board[index] = currentPlayer;
-            [...$('.board-grid').children].find(x=>x.index === index).textContent = currentPlayer;
+            let target = [...$('.board-grid').children].find(x=>x.index === index);
+            target.textContent = currentPlayer;
+            target.removeEventListener('click',UIEventHandler,{once:true});
         }
         setTimeout(() => {
             currentPlayer = ['X','O'].find(x=>x!==currentPlayer);
