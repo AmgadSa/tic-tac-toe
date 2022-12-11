@@ -32,7 +32,10 @@ const game = (()=>{
         container.appendChild(grid);
     return 'Initialized'}
 
-    const updateTurn = () => $('.turn').textContent = `Player ${currentPlayer}'s Turn`;
+    const updateTurn = () => {
+        if(!$('.turn')){return true;}
+        $('.turn').textContent = `Player ${currentPlayer}'s Turn`;
+    }
     
     const mark = (player,index)=>{
         board[index] = board[index] || player;
